@@ -1,59 +1,39 @@
-# Express API Starter with Typescript
+# Paseto Authentication
 
-How to use this template:
+This README provides a guide on implementing Paseto as part of your 150 days of backend mastery journey.
 
-```sh
-npx create-express-api --typescript --directory my-api-name
-```
+## What is Paseto?
 
-Includes API Server utilities:
+Paseto (Platform-Agnostic Security Tokens) is a secure and easy-to-use token format that can be used for authentication and authorization in web applications. It aims to be a more secure alternative to JSON Web Tokens (JWTs) by avoiding common vulnerabilities and providing a simpler API.
 
-* [morgan](https://www.npmjs.com/package/morgan)
-  * HTTP request logger middleware for node.js
-* [helmet](https://www.npmjs.com/package/helmet)
-  * Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
-* [dotenv](https://www.npmjs.com/package/dotenv)
-  * Dotenv is a zero-dependency module that loads environment variables from a `.env` file into `process.env`
-* [cors](https://www.npmjs.com/package/cors)
-  * CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+## Getting Started
 
-Development utilities:
+To start using Paseto for authentication in your backend application, follow these steps:
 
-* [typescript](https://www.npmjs.com/package/typescript)
-  * TypeScript is a language for application-scale JavaScript.
-* [ts-node](https://www.npmjs.com/package/ts-node)
-  * TypeScript execution and REPL for node.js, with source map and native ESM support.
-* [nodemon](https://www.npmjs.com/package/nodemon)
-  * nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
-* [eslint](https://www.npmjs.com/package/eslint)
-  * ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
-* [typescript-eslint](https://typescript-eslint.io/)
-  * Tooling which enables ESLint to support TypeScript.
-* [jest](https://www.npmjs.com/package/jest)
-  * Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
-* [supertest](https://www.npmjs.com/package/supertest)
-  * HTTP assertions made easy via superagent.
+1. Install the necessary dependencies:
 
-## Setup
+   ```bash
+   npm install paseto
+   ```
 
-```
-npm install
-```
+2. Generate a secret key for signing and verifying Paseto tokens. Make sure to keep this key secure and never expose it publicly.
 
-## Lint
+3. Implement the authentication logic in your backend application. This typically involves the following steps:
 
-```
-npm run lint
-```
+   - Receiving the user's credentials (e.g., username and password) from the client.
+   - Verifying the credentials against your user database or any other authentication mechanism.
+   - If the credentials are valid, generate a Paseto token using the secret key and include any necessary claims (e.g., user ID, roles, expiration time).
+   - Send the generated token back to the client.
 
-## Test
+4. On subsequent requests from the client, validate the Paseto token to ensure the authenticity and integrity of the request. This involves the following steps:
+   - Receive the Paseto token from the client.
+   - Verify the token using the secret key.
+   - If the token is valid, extract the necessary claims and perform any required authorization checks.
 
-```
-npm run test
-```
+## Additional Resources
 
-## Development
+For more information on Paseto and how to use it effectively, refer to the following resources:
 
-```
-npm run dev
-```
+- [Paseto Official Website](https://paseto.io/)
+- [Paseto GitHub Repository](https://github.com/paragonie/paseto)
+- [Paseto RFC](https://github.com/paragonie/paseto/blob/master/docs/01-Protocol-Versions/Version2.md)
