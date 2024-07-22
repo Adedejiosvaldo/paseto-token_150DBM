@@ -13,16 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Teacher {
+model User {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
+  email   String @unique
+  password String
   schedule Schedule?
   courses  Course[]
 }
 
 model Schedule {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  teacher   Teacher @relation(fields: [teacherId], references: [id])
+  teacher   User @relation(fields: [teacherId], references: [id])
   teacherId String  @unique @db.ObjectId
 }
 
@@ -30,6 +32,6 @@ model Course {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  teacher     Teacher @relation(fields: [teacherId], references: [id])
+  teacher     User @relation(fields: [teacherId], references: [id])
   teacherId   String  @db.ObjectId
 }
