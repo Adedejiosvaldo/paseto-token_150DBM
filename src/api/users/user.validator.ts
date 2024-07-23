@@ -30,5 +30,5 @@ const createUserSchema = z.object({
 
 export { LoginUserDTO, signUpDto };
 
-export const loginValidator = validateRequest(loginSchema);
-export const CreateUserValidator = validateRequest(createUserSchema);
+export const loginValidator = validateRequest(loginSchema, "body");
+export const CreateUserValidator = validateRequest(createUserSchema, "body");

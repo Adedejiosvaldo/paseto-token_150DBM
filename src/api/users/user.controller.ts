@@ -4,10 +4,6 @@ import prisma from "../../prismaclient";
 import { LoginUserDTO, signUpDto } from "./user.validator";
 import { generateToken, verifyToken } from "../../utils/token";
 
-const Login = async (data: LoginUserDTO) => {
-  //
-};
-
 const LoginUserController = async (req: Request, res: Response) => {
   const loginBody: LoginUserDTO = req.body;
   const user = await prisma.user.findUnique({
