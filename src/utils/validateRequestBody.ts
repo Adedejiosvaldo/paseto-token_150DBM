@@ -9,7 +9,6 @@ export default function validateRequest(schema: ZodSchema) {
     if (!result.success) {
       return res.status(400).json(result.error.format());
     }
-    console.log("na me");
     next();
   };
 }

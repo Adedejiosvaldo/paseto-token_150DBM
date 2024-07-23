@@ -8,6 +8,7 @@ import api from "./api";
 
 import MessageResponse from "./interfaces/MessageResponse";
 import userRoutes from "./api/users/user.route";
+import coursesRoutes from "./api/courses/course.route";
 
 require("dotenv").config();
 
@@ -26,6 +27,8 @@ app.get<{}, MessageResponse>("/", async (req, res) => {
 
 app.use("/api/v1", api);
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/courses", coursesRoutes);
+
 // In your main app file, e.g., app.js or server.js
 
 app.use(middlewares.notFound);

@@ -9,9 +9,7 @@ const Login = async (data: LoginUserDTO) => {
 };
 
 const LoginUserController = async (req: Request, res: Response) => {
-  console.log("na me2");
   const loginBody: LoginUserDTO = req.body;
-
   const user = await prisma.user.findUnique({
     where: {
       email: loginBody.email,

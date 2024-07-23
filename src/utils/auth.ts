@@ -35,5 +35,9 @@ const authMiddleWare = async (
         new AppError("The user belonging to the token no longer exist", 401)
       );
     }
-  } catch (error) {}
+  } catch (error) {
+    return next(new AppError("Not authorized to access this route", 401));
+  }
 };
+
+export default authMiddleWare;
