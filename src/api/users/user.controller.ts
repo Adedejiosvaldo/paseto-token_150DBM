@@ -1,32 +1,52 @@
 import { Request, Response } from "express";
-import { hash } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import prisma from "../../prismaclient";
 import { LoginUserDTO, signUpDto } from "./user.validator";
-import { getSymmetricKey } from "../../utils/token";
+import { generateToken, verifyToken } from "../../utils/token";
 
 const Login = async (data: LoginUserDTO) => {
   //
 };
 
-// const LoginUserController = async (req: Request, res: Response) => {
-//   console.log("na me2");
-//   const loginBody: LoginUserDTO = req.body();
+const LoginUserController = async (req: Request, res: Response) => {
+  console.log("na me2");
+  const loginBody: LoginUserDTO = req.body;
 
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       email: loginBody.email,
-//     },
-//   });
+  const user = await prisma.user.findUnique({
+    where: {
+      email: loginBody.email,
+    },
+  });
 
-//   if (!user) {
-//     return res.status(404).json({
-//       data: {
-//         status: "error",
-//         message: "User not found",
-//       },
-//     });
-//   }
-// };
+  if (!user) {
+    return res.status(404).json({
+      data: {
+        status: "error",
+        message: "User not found",
+      },
+    });
+  }
+
+  const isPasswordValid = compare(loginBody.password, user.password);
+
+  if (!isPasswordValid) {
+    return res.status(401).json({
+      data: {
+        status: "error",
+        message: "Invalid password",
+      },
+    });
+  }
+
+  const token = await generateToken({ id: user.id, email: user.email });
+  return res.status(200).json({
+    data: {
+      token,
+      status: "success",
+      message: "User logged in successfully",
+    },
+  });
+};
 
 const CreateUserController = async (req: Request, res: Response) => {
   try {
@@ -57,7 +77,7 @@ const CreateUserController = async (req: Request, res: Response) => {
       },
     });
 
-    const token = await getSymmetricKey();
+    const token = await generateToken({ id: newUser.id, email: newUser.email });
 
     return res.status(201).json({
       data: {
@@ -68,6 +88,7 @@ const CreateUserController = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Error creating user:", error);
+
     return res.status(500).json({
       data: {
         status: "error",
@@ -76,4 +97,5 @@ const CreateUserController = async (req: Request, res: Response) => {
     });
   }
 };
-export { CreateUserController };
+
+export { CreateUserController, LoginUserController };
